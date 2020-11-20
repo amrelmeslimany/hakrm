@@ -2,7 +2,6 @@ $(function() {
     const bar_links_open = $(".main-nav .list-links-bar i"),
         list_link = $(".links-self"),
         list_link_close_btn = $(".links-self .close-navbar"),
-        form_profile = $("section.profile-content .change-data-self .form-profile"),
         choose_subject = $(".choose-subject"),
         btn_print = $(".print-table");
     let tl_gsap_nav = gsap.timeline({ paused: true });
@@ -35,10 +34,88 @@ $(function() {
         readURL(this);
     });
     // Form Profile =======================================================
-    form_profile.on("submit", function(cl) {
+    $('.change-data-self .form-profile').submit(function(cl) {
         cl.preventDefault();
-        form_profile.prepend('<div class="alert alert-success">Updated Successed</div>');
-        form_profile.find(".alert").delay(5000).slideUp(100)
+        let formdataSer = $(this).serialize(),
+            formdataInputs = {
+                username: $(this.username).val(),
+                password: $(this.password).val()
+            };
+        if (formdataInputs.username != '' || formdataInputs.password != '') {
+            if (formdataInputs.username) {
+                if (formdataInputs.username.length <= 2) {
+                    $(this.username).removeClass('is-valid');
+                    $(this.username).addClass('is-invalid');
+                    $(this.username).after(`<div class="invalid-feedback">Username Not Less Than 2 Letters</div>`);
+                    $(this.username).nextAll('.invalid-feedback,.valid-feedback').delay(2000).hide(200, function() {
+                        $(this).remove();
+                    });
+                } else if (!(/^[a-zA-Z]/g.test(formdataInputs.username))) {
+                    $(this.username).removeClass('is-valid');
+                    $(this.username).addClass('is-invalid');
+                    $(this.username).after(`<div class="invalid-feedback">Username Must Start Letters</div>`);
+                    $(this.username).nextAll('.invalid-feedback,.valid-feedback').delay(2000).hide(200, function() {
+                        $(this).remove();
+                    });
+                } else {
+                    $(this.username).removeClass('is-invalid');
+                    $(this.username).addClass('is-valid');
+                    $(this.username).after(`<div class="valid-feedback">Good Username</div>`);
+                    $(this.username).nextAll('.invalid-feedback,.valid-feedback').delay(2000).hide(200, function() {
+                        $(this).remove();
+                    });
+                    $('.form-profile').prepend('<div class="alert alert-success">Success Update Username</div>');
+                    $('.form-profile').find(".alert").delay(2000).slideUp(100);
+                    console.log(formdataInputs.username)
+                    setTimeout(() => {
+                        $(this.username).removeClass('is-valid');
+                        $(this.username).val('')
+                    }, 2000)
+                }
+            }
+            // For Password
+            if (formdataInputs.password) {
+                if (!(/[A-Z]/g).test(formdataInputs.password)) {
+                    $(this.password).removeClass('is-valid');
+                    $(this.password).addClass('is-invalid');
+                    $(this.password).after(`<div class="invalid-feedback">Must Be Capital , Small Letter And Numbers</div>`);
+                    $(this.password).nextAll('.invalid-feedback,.valid-feedback').delay(2000).hide(200, function() {
+                        $(this).remove();
+                    });
+                } else if (!(/[a-z]/g).test(formdataInputs.password)) {
+                    $(this.password).removeClass('is-valid');
+                    $(this.password).addClass('is-invalid');
+                    $(this.password).after(`<div class="invalid-feedback">Must Be Capital , Small Letter And Numbers</div>`);
+                    $(this.password).nextAll('.invalid-feedback,.valid-feedback').delay(2000).hide(200, function() {
+                        $(this).remove();
+                    });
+                } else if (!(/[0-9]/g).test(formdataInputs.password)) {
+                    $(this.password).removeClass('is-valid');
+                    $(this.password).addClass('is-invalid');
+                    $(this.password).after(`<div class="invalid-feedback">Must Be Capital , Small Letter And Numbers</div>`);
+                    $(this.password).nextAll('.invalid-feedback,.valid-feedback').delay(2000).hide(1200, function() {
+                        $(this).remove();
+                    });
+                } else {
+                    $(this.password).removeClass('is-invalid');
+                    $(this.password).addClass('is-valid');
+                    $(this.password).after(`<div class="valid-feedback">Good Password</div>`);
+                    $(this.password).nextAll('.invalid-feedback,.valid-feedback').delay(2000).hide(200, function() {
+                        $(this).remove();
+                    });
+                    $('.form-profile').prepend('<div class="alert alert-success">Success Update Password</div>');
+                    $('.form-profile').find(".alert").delay(2000).slideUp(100);
+                    console.log(formdataInputs.password)
+                    setTimeout(() => {
+                        $(this.password).removeClass('is-valid');
+                        $(this.password).val('')
+                    }, 2000)
+                }
+            }
+        } else {
+            $('.form-profile').prepend('<div class="alert alert-danger">Empty Fields</div>');
+            $('.form-profile').find(".alert").delay(2000).slideUp(100)
+        }
     });
     // Section Registeration , Choose Subject
     choose_subject.checkboxpicker({
