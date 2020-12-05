@@ -41,7 +41,7 @@ $(function() {
                 password: $(this.password).val()
             };
             // For Password
-            if (formdataInputs.password) {
+            if (formdataInputs.password || formdataInputs.password != "") {
                 if (!(/[A-Z]/g).test(formdataInputs.password)) {
                     $(this.password).removeClass('is-valid');
                     $(this.password).addClass('is-invalid');
@@ -80,8 +80,8 @@ $(function() {
                 }
             }
         } else {
-            $('.form-profile').prepend('<div class="alert alert-danger">Empty Fields</div>');
-            $('.form-profile').find(".alert").delay(2000).slideUp(100)
+            $('.form-profile').prepend(`<div class="alert alert-danger">Empty Fields</div>`);
+            $('.form-profile').find(".alert").delay(2000).slideUp(100);
         }
     });
     // Section Registeration , Choose Subject
