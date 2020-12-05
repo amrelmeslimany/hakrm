@@ -38,7 +38,6 @@ $(function() {
         cl.preventDefault();
         let formdataSer = $(this).serialize(),
             formdataInputs = {
-                username: $(this.username).val(),
                 password: $(this.password).val()
             };
             // For Password
