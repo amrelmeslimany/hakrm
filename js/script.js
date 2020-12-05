@@ -78,7 +78,6 @@ $(function() {
                         $(this.password).val('')
                     }, 2000)
                 }
-            }
         } else {
             $('.form-profile').prepend(`<div class="alert alert-danger">Empty Fields</div>`);
             $('.form-profile').find(".alert").delay(2000).slideUp(100);
